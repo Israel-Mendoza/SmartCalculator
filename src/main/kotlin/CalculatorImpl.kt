@@ -1,7 +1,5 @@
 package dev.artisra
 
 class CalculatorImpl : Calculator {
-    override fun add(a: Int, b: Int): Int {
-        return a + b
-    }
+    override fun add(numbers: List<Int>): Int = numbers.sum()
 }

@@ -1,5 +1,5 @@
 package dev.artisra
 
 interface Calculator {
-    fun add(a: Int, b: Int): Int
+    fun add(numbers: List<Int>): Int
 }
