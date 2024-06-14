@@ -1,4 +1,6 @@
-package dev.artisra
+package dev.artisra.utils
+
+import dev.artisra.calculator.Calculator
 
 fun ongoingCalculationPrompt(calculator: Calculator) {
     var keepProgramAlive = true
@@ -19,8 +21,8 @@ fun dispatchAction(input: String?, calculator: Calculator): Boolean = when {
             true
         }
         else -> {
-            val numbers = input.split(" ").map { it.toInt() }
-            val result = calculator.add(numbers)
+            val numbers = getNumbersToAdd(input.cleanMathExpression())
+            val result = calculator.addNumbers(numbers)
             println(result)
             true
         }
@@ -28,6 +30,12 @@ fun dispatchAction(input: String?, calculator: Calculator): Boolean = when {
 
 
 fun printHelpMessage() {
-    val message = "The program calculates the sum of numbers"
+    val message = "The program calculates the sum and subtraction of numbers."
     println(message)
+}
+
+fun expressionBreaker(expression: String): List<Int> {
+    val items = expression.split("\\s".toRegex()).filterNot { it.isBlank() || it.isEmpty() }
+
+    return listOf()
 }
