@@ -2,9 +2,10 @@ package dev.artisra.utils
 
 fun String.cleanMathExpression(): String {
     return this
+        .cleanSpaces()
         .cleanPlusSignsInMathExpr()
         .cleanMinusSignsInMathExpr()
-        .cleanExtraSpaces()
+        .lastCleansing()
 }
 
 fun String.cleanPlusSignsInMathExpr(): String {
@@ -22,9 +23,18 @@ fun String.cleanMinusSignsInMathExpr(): String {
     return result
 }
 
-fun String.cleanExtraSpaces(): String {
-    val pattern = "\\s{2,}".toRegex()
-    return this.replace(pattern, " ")
+fun String.cleanSpaces(): String {
+    val pattern = " ".toRegex()
+    return this.replace(pattern, "")
+}
+
+fun String.lastCleansing(): String {
+    val result = this
+        .replace("+-", "-")
+        .replace("-+", "-")
+        .replace("++", "+")
+        .replace("--", "+")
+    return result
 }
 
 fun cleanMinusSigns(minusSigns: String): String = if (minusSigns.length % 2 == 0) "+" else "-"

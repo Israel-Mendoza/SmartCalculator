@@ -10,32 +10,42 @@ fun ongoingCalculationPrompt(calculator: Calculator) {
     }
 }
 
-fun dispatchAction(input: String?, calculator: Calculator): Boolean = when {
+fun dispatchAction(input: String?, calculator: Calculator): Boolean {
+
+    val singleNumber = input?.toIntOrNull()
+    if (singleNumber != null) {
+        println(singleNumber)
+        return true
+    }
+
+    return when {
         input.isNullOrEmpty() -> true
         input.equals("/exit", ignoreCase = true) -> {
             println("Bye!")
             false
         }
+
         input.equals("/help", ignoreCase = true) -> {
-            printHelpMessage()
+            calculator.printHelp()
             true
         }
+
         else -> {
-            val numbers = getNumbersToAdd(input.cleanMathExpression())
-            val result = calculator.addNumbers(numbers)
+            val expression = try {
+                input.parseArithmeticExpression()
+            } catch (e: InvalidExpression) {
+                println(e.message)
+                return true
+            } catch (e: UnknownCommand) {
+                println("Unknown command")
+                return true
+            } catch (e: Exception) {
+                println("Unknown error")
+                return true
+            }
+            val result = calculator.process(expression)
             println(result)
             true
         }
     }
-
-
-fun printHelpMessage() {
-    val message = "The program calculates the sum and subtraction of numbers."
-    println(message)
-}
-
-fun expressionBreaker(expression: String): List<Int> {
-    val items = expression.split("\\s".toRegex()).filterNot { it.isBlank() || it.isEmpty() }
-
-    return listOf()
 }
